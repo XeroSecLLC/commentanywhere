@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "commentanywhere",
+  "version": "1.0",
+  "description": "Comment anywhere on any web page",
+  "permissions": [
+    "identity",
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "dist/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["dist/content.js"]
+    }
+  ]
+}
