@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Example with local storage:
     const commentsKey = `comments_${request.url}`;
     chrome.storage.local.get([commentsKey], (result) => {
-      let comments = result[commentsKey] || [];
+      const comments = result[commentsKey] || [];
       comments.push(request.comment);
       chrome.storage.local.set({[commentsKey]: comments}, () => {
         sendResponse({status: 'success'});

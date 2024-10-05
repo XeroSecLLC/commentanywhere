@@ -12,7 +12,7 @@ very-clean: clean
 .PHONY: very-clean
 
 clean:
-	rm -rf dist target/lint
+	rm -rf dist target/lint target/build
 .PHONY: clean
 
 install: | target/install
@@ -31,7 +31,13 @@ target/lint:
 	mkdir -p $(@D) && touch $@
 .PHONY: lint
 
+build: | install target/build
+target/build:
+	npm run build
+	mkdir -p $(@D) && touch $@
+.PHONY: build
+
 # --- ci
 
-ci: | install lint
+ci: | install lint build
 .PHONY: ci

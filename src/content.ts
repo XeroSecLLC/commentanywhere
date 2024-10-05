@@ -1,5 +1,7 @@
+import type { CommentMessage, CommentResponse, _Comment } from './types';
+
 // Check if we are on a specific URL
-if (window.location.href.includes("example.com/specific-page")) {
+if (window.location.href.includes('example.com/specific-page')) {
   const commentBox = document.createElement('div');
   commentBox.innerHTML = `
     <div style="position: fixed; bottom: 10px; right: 10px; width: 300px; height: 200px; background-color: white; border: 1px solid #ccc; padding: 10px; z-index: 1000;">
@@ -10,22 +12,43 @@ if (window.location.href.includes("example.com/specific-page")) {
   `;
   document.body.appendChild(commentBox);
 
-  document.getElementById('submitComment').addEventListener('click', () => {
-    const comment = document.getElementById('commentInput').value;
-    // Call backend to submit the comment
-    chrome.runtime.sendMessage({action: 'submitComment', comment, url: window.location.href}, (response) => {
-      alert('Comment submitted!');
-      document.getElementById('commentInput').value = '';
-    });
-  });
+  // Get elements with proper type assertions
+  const submitButton = document.getElementById('submitComment');
+  const commentInput = document.getElementById('commentInput') as HTMLTextAreaElement;
+  const commentsSection = document.getElementById('commentsSection');
 
-  // Load comments for this page
-  chrome.runtime.sendMessage({action: 'getComments', url: window.location.href}, (response) => {
-    const commentsSection = document.getElementById('commentsSection');
-    response.comments.forEach(comment => {
-      const commentElem = document.createElement('p');
-      commentElem.textContent = comment;
-      commentsSection.appendChild(commentElem);
+  if (submitButton && commentInput && commentsSection) {
+    // Add click event listener
+    submitButton.addEventListener('click', (): void => {
+      const comment = commentInput.value;
+
+      // Submit comment
+      chrome.runtime.sendMessage(
+        {
+          action: 'submitComment' as const,
+          comment,
+          url: window.location.href,
+        } satisfies CommentMessage,
+        (response): void => {
+          alert('Comment submitted!');
+          commentInput.value = '';
+        }
+      );
     });
-  });
+
+    // Load comments
+    chrome.runtime.sendMessage(
+      {
+        action: 'getComments' as const,
+        url: window.location.href,
+      } as CommentMessage,
+      (response: CommentResponse): void => {
+        response.comments.forEach((comment: string): void => {
+          const commentElem = document.createElement('p');
+          commentElem.textContent = comment;
+          commentsSection.appendChild(commentElem);
+        });
+      }
+    );
+  }
 }
