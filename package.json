@@ -4,9 +4,10 @@
   "type": "module",
   "description": "Comment on any website",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
     "lint": "echo \"no lint specified\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "cp manifest.json popup.html dist/"
   },
   "author": "skilbjo",
   "license": "ISC",

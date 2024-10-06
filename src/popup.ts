@@ -7,6 +7,8 @@ const statusElement = document.getElementById('status');
 
 // Add null checks before adding event listener
 if (submitButton && commentInput && statusElement) {
+  console.log({commentInput});
+
   submitButton.addEventListener('click', (): void => {
     const comment = commentInput.value;
 
