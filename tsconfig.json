@@ -2,11 +2,10 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Node 20",
   "compilerOptions": {
-    "strict": true,
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
+    "target": "ES5",
+    "module": "none",
+    "moduleResolution": "classic",
+    "esModuleInterop": false,
     "skipLibCheck": true,
     "lib": ["ES2022", "DOM"],
     "forceConsistentCasingInFileNames": true,
@@ -14,10 +13,12 @@
     "rootDir": "./src",
     "types": ["chrome"],
     "allowJs": true,
+    "strict": true,
     "checkJs": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "./types.d.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

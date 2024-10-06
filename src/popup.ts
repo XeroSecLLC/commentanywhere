@@ -1,8 +1,12 @@
-import { CommentMessage } from './types';
+type CommentMessage = {
+  action: 'submitComment' | 'getComments';
+  comment: string;
+  url?: string;
+}
 
 // Get DOM elements with proper type assertions once at the start
-const submitButton = document.getElementById('submit');
-const commentInput = document.getElementById('comment') as HTMLTextAreaElement | HTMLInputElement;
+const _submitButton = document.getElementById('submit');
+const _commentInput = document.getElementById('comment') as HTMLTextAreaElement | HTMLInputElement;
 const statusElement = document.getElementById('status');
 
 // Add null checks before adding event listener
